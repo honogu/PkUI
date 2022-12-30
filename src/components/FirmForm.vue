@@ -12,7 +12,7 @@
     />
     <img 
       v-else-if="prop.firm?.name != undefined" 
-      :src="apiUrl + 'firms/' + prop.firm?.name + '/image/' + (new Date()).toISOString()" 
+      :src="'firms/' + prop.firm?.name + '/image/' + (new Date()).toISOString()" 
       alt="Firms logo" 
     />
     <p v-for="error in errors?.Image" :key="error">{{ error }}</p>
@@ -32,8 +32,6 @@
 import { ref, Ref, defineProps, defineEmits, onMounted } from 'vue'
 import { Firm, FirmValidation } from '@/Models/Firms'
 import useFirms from '@/Stores/FirmsStore'
-import { getApiUrl } from "@/Stores/Api";
-const { apiUrl } = getApiUrl();
 let { load } = useFirms();
 const emit = defineEmits<{ (e: 'on-submit', formFirm: Firm): void }>()
 const prop = defineProps<{ firm?: Firm, errors?: FirmValidation }>();

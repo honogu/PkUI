@@ -1,6 +1,6 @@
 <template>
   <div v-if="!editVisible && !deleteVisible">
-    <img :src="apiUrl + 'firms/' + firm?.name + '/image/' + (new Date()).toISOString()" alt="logo" />
+    <img :src="'firms/' + firm?.name + '/image/' + (new Date()).toISOString()" alt="logo" />
     <p>
       {{ firm?.name }}
       {{ firm?.englishDescription }}
@@ -28,8 +28,6 @@ import { ref, onMounted, defineEmits, watch } from 'vue'
 import useFirms from '@/Stores/FirmsStore'
 import { Firm, FirmValidation } from '@/Models/Firms'
 import FirmForm from './FirmForm.vue'
-import { getApiUrl } from "@/Stores/Api";
-const { apiUrl } = getApiUrl();
 let { firm, load, updateFirm, deleteFirm } = useFirms()
 const emit = defineEmits(['on-toggle'])
 
