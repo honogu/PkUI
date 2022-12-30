@@ -24,6 +24,7 @@
     <p v-for="error in errors?.EstonianDescription" :key="error">{{ error }}</p>
     <label for="key">Key:</label>
     <input name="key" v-model="formFirm.key" type="text">
+    <p>{{ errors?.title }}</p>
     <button type="submit">SALVESTA</button>
   </form>
 </template>

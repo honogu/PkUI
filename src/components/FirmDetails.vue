@@ -1,6 +1,16 @@
 <template>
   <div v-if="!editVisible && !deleteVisible">
-    <img :src="urlApi + 'firms/' + firm?.name + '/image/' + (new Date()).toISOString()" alt="logo" />
+    <div class="images">
+      <img 
+        :src="urlApi + 'firms/' + firm?.name + '/image/' + (new Date()).toISOString()"
+        @load="loading = false" 
+        alt="logo" 
+      />
+      <img v-if="loading"
+        :src="require('@/assets/placeholder.png')"
+        alt="placeholder" 
+      />
+    </div>
     <p>
       {{ firm?.name }}
       {{ firm?.englishDescription }}
@@ -18,6 +28,9 @@
 
   <div v-else>
     <h1>❌</h1>
+    <label for="key">Key:</label>
+    <input name="key" v-model="key" type="text">
+    <p>{{ errors?.title }}</p>
     <button v-on:click="submitDelete">👍</button>
     <button v-on:click="toggleDetails">👎</button>
   </div>
@@ -39,7 +52,13 @@ function toggleDetails() { editVisible.value = false; deleteVisible.value = fals
 function toggleEdit() { editVisible.value = true; deleteVisible.value = false }
 function toggleDelete() { editVisible.value = false; deleteVisible.value = true }
 
-watch(firm, toggleDetails)
+watch(firm, reload)
+
+let loading = ref(true)
+function reload() {
+  toggleDetails()
+  loading.value = true
+}
 
 let errors = ref<FirmValidation>()
 async function submitUpdate(formFirm: Firm) {
@@ -48,8 +67,20 @@ async function submitUpdate(formFirm: Firm) {
   if (errors.value == undefined) { toggleDetails() }
 }
 
+let key = ref<string>()
 async function submitDelete() {
-  await deleteFirm(firm.value?.name ?? '');
-  emit('on-toggle')
+  errors.value = undefined
+  errors.value = await deleteFirm(firm.value?.name ?? '', key.value ?? '')
+  if (errors.value == undefined) { emit('on-toggle') }
 }
 </script>
+
+<style scoped>
+.images {
+  height: 100px;
+}
+.images img {
+  position: absolute;
+  height: 100px;
+}
+</style>

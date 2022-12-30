@@ -11,4 +11,5 @@ export interface FirmValidation {
     Image: string;
     EnglishDescription: string;
     EstonianDescription: string;
+    title: string;
 }

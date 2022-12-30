@@ -1,7 +1,9 @@
 <template>
-  <NavBar @on-toggle="toggle"/>
-  <FirmDetails v-if="detailsVisible" @on-toggle="toggle"/>
-  <FirmForm v-else @on-submit="submit" :errors="errors"/>
+  <NavBar @on-toggle="toggle" />
+  <div v-cloak>
+    <FirmDetails v-if="detailsVisible" @on-toggle="toggle" />
+    <FirmForm v-else @on-submit="submit" :errors="errors" />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -32,3 +34,9 @@ async function submit(userForm: Firm) {
   if (errors.value == undefined) { toggle(userForm.name) }
 }
 </script>
+
+<style>
+[v-cloak] {
+  display: none;
+}
+</style>
