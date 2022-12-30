@@ -2,10 +2,11 @@ import type { Firm } from "@/Models/Firms"
 import { ref } from 'vue'
 const firms = ref<string[]>()
 const firm = ref<Firm>()
+const urlApi = 'https://pkapi-production.up.railway.app/api/'
 
 export default function useFirms() {
   const loadFirms = async () => {
-    const response = await fetch('firms');
+    const response = await fetch(urlApi + 'firms');
     const data = await response.json();
 
     if (data) {
@@ -20,7 +21,7 @@ export default function useFirms() {
   }
 
   const getFirm = async (name: string) => {
-    const response = await fetch('firms/' + name)
+    const response = await fetch(urlApi + 'firms/' + name)
     const data = await response.json();
 
     if (data) {
@@ -35,7 +36,7 @@ export default function useFirms() {
     form.append('EnglishDescription', firm.englishDescription)
     form.append('EstonianDescription', firm.estonianDescription)
 
-    const response = await fetch('firms', {
+    const response = await fetch(urlApi + 'firms', {
       method: 'POST',
       body: form
     })
@@ -62,7 +63,7 @@ export default function useFirms() {
     form.append('EnglishDescription', firm.englishDescription)
     form.append('EstonianDescription', firm.estonianDescription)
 
-    const response = await fetch('firms/' + name, {
+    const response = await fetch(urlApi + 'firms/' + name, {
       method: 'PUT',
       body: form
     })
@@ -83,7 +84,7 @@ export default function useFirms() {
   }
 
   const deleteFirm = async (name: string) => {
-    const response = await fetch('firms/' + name, { method: 'DELETE' })
+    const response = await fetch(urlApi + 'firms/' + name, { method: 'DELETE' })
     const data = await response.json()
 
     if (data) {
@@ -92,5 +93,5 @@ export default function useFirms() {
     }
   }
 
-  return { firm, firms, load, postFirm, getFirm, updateFirm, deleteFirm }
+  return { urlApi, firm, firms, load, postFirm, getFirm, updateFirm, deleteFirm }
 }
