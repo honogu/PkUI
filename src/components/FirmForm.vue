@@ -143,18 +143,20 @@ input, textarea {
 }
 textarea {
   resize: none;
-}
-textarea::-webkit-scrollbar {
-    width: 5px;
-    height: 7px;
-}
-textarea::-webkit-scrollbar-thumb {
-    background: #ff0063;
-    border-radius: 5px;
+  min-height: 100px;
 }
 input {
   padding: 2px 5px;
+  min-height: 30px;
   height: 30px;
+}
+textarea::-webkit-scrollbar {
+  width: 5px;
+  height: 7px;
+}
+textarea::-webkit-scrollbar-thumb {
+  background: #ff0063;
+  border-radius: 5px;
 }
 .error {
   border: 3px solid red;
@@ -185,6 +187,7 @@ input[type="file"] {
 .custom-file-upload {
   height: 35px;
   width: 85px;
+  min-width: 85px;
   padding: 0 5px;
   line-height: 35px;
   display: inline-block;

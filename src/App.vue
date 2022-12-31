@@ -43,7 +43,8 @@ async function submit(userForm: Firm) {
 
 html, body {
   width: 100%;
-  height: 100%;
+  height: auto;
+  overflow-x: hidden;
 }
 
 @font-face {
@@ -76,6 +77,7 @@ body {
   width: 800px;
   height: 100%;
   display: flex;
+  margin: 10px 0;
 }
 main {
   width: 580px;

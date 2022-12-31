@@ -142,7 +142,7 @@ label {
 input {
   padding: 2px 5px;
   height: 30px;
-  width: 400px;
+  width: 286px;
   border: 3px solid transparent;
   color: #000000;
   border-radius: 5px;
@@ -165,6 +165,6 @@ input:hover {
   .button-container {
     display: flex;
     justify-content: right;
-  }  
+  }
 }
 </style>
