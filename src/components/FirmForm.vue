@@ -202,4 +202,10 @@ h4 {
   margin: 5px 0 10px 0;
   padding: 0;
 }
+
+@media only screen and (max-width: 850px) {
+  form {   
+    width: auto;
+  }
+}
 </style>

@@ -41,6 +41,11 @@ async function submit(userForm: Firm) {
   display: none;
 }
 
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
 @font-face {
   font-family: Gilroy-eb;
   src: url(@/assets/fonts/Gilroy-ExtraBold.otf);
@@ -61,7 +66,6 @@ h3, h4, label, li, input, textarea, p {
 }
 
 body {
-  width: 100%;
   margin: 0;
   display: flex;
   justify-content: center;
@@ -80,10 +84,11 @@ main {
 
 @media only screen and (max-width: 850px) {
   #app {
+    width: 90%;
     justify-content: center;
   }
   main {   
-    width: 90%;
+    width: auto;
     display: flex;
     justify-content: center;
     margin: 40px 0;
