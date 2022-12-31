@@ -1,9 +1,9 @@
 <template>
   <NavBar @on-toggle="toggle" />
-  <div v-cloak>
+  <main v-cloak>
     <FirmDetails v-if="detailsVisible" @on-toggle="toggle" />
     <FirmForm v-else @on-submit="submit" :errors="errors" />
-  </div>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -13,7 +13,7 @@ import NavBar from './components/NavBar.vue'
 import useFirms from '@/Stores/FirmsStore'
 import { Firm, FirmValidation } from '@/Models/Firms'
 import { ref, onMounted } from 'vue'
-let { load, getFirm, postFirm } = useFirms();
+let { firm, load, getFirm, postFirm } = useFirms();
 
 onMounted(() => load());
 
@@ -23,6 +23,7 @@ async function toggle(name: string | null) {
     await getFirm(name)
     detailsVisible.value = true
   } else {
+    firm.value = undefined
     detailsVisible.value = false
   }
 }
@@ -38,5 +39,54 @@ async function submit(userForm: Firm) {
 <style>
 [v-cloak] {
   display: none;
+}
+
+@font-face {
+  font-family: Gilroy-eb;
+  src: url(@/assets/fonts/Gilroy-ExtraBold.otf);
+}
+@font-face {
+  font-family: Gilroy-l;
+  src: url(@/assets/fonts/Gilroy-Light.otf);
+}
+
+h1, h2 {
+  font-family: Gilroy-eb;
+  color: white;
+}
+h3, h4, label, li, input, textarea, p {
+  font-family: Gilroy-l;
+  color: white;
+  font-weight: 400;
+}
+
+body {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
+  background: linear-gradient(90deg,#170954 9%,#312ebd 95%);
+}
+#app {
+  width: 800px;
+  height: 100%;
+  display: flex;
+}
+main {
+  width: 580px;
+  margin-left: 20px;
+}
+
+@media only screen and (max-width: 850px) {
+  #app {
+    justify-content: center;
+  }
+  main {   
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
+  }
 }
 </style>
