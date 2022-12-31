@@ -3,6 +3,7 @@ import { ref } from 'vue'
 const firms = ref<string[]>()
 const firm = ref<Firm>()
 const urlApi = 'https://pkapi-production.up.railway.app/api/'
+//const urlApi = 'https://localhost:7086/api/'
 
 export default function useFirms() {
   const loadFirms = async () => {
