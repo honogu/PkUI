@@ -5,11 +5,11 @@
         <ul>
             <h1>OSALEVAD FIRMAD:</h1>
             <li 
-                v-for="name in firms" :key="name" 
-                v-on:click="emit('on-toggle', name); makeNavVisible()"
-                :style="name == firm?.name ? 'background-color: #ff0063' : ''"
+                v-for="firm1 in firms" :key="firm1.id" 
+                v-on:click="emit('on-toggle', firm1.id); makeNavVisible()"
+                :style="firm1.name == firm?.name ? 'background-color: #ff0063' : ''"
             >
-                {{ name }}
+                {{ firm1.name }}
             </li>
             <li 
                 v-on:click="emit('on-toggle'); makeNavVisible()"

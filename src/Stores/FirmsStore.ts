@@ -1,10 +1,10 @@
 import type { Firm } from "@/Models/Firms"
 import { ref } from 'vue'
-const firms = ref<string[]>()
+const firms = ref<Firm[]>()
 const firm = ref<Firm>()
 //const urlApi = 'https://pkapi-production.up.railway.app/api/'
-//const urlApi = 'https://localhost:7086/api/'
-const urlApi = 'https://pkapi.onrender.com/api/'
+const urlApi = 'https://localhost:7086/api/'
+//const urlApi = 'https://pkapi.onrender.com/api/'
 
 export default function useFirms() {
   const loadFirms = async () => {
@@ -22,8 +22,8 @@ export default function useFirms() {
     firms.value = await loadFirms()
   }
 
-  const getFirm = async (name: string) => {
-    const response = await fetch(urlApi + 'firms/' + name)
+  const getFirm = async (id: string) => {
+    const response = await fetch(urlApi + 'firms/' + id)
     const data = await response.json();
 
     if (data) {
@@ -62,7 +62,7 @@ export default function useFirms() {
     }
   }
 
-  const updateFirm = async (firm: Firm, name: string) => {
+  const updateFirm = async (firm: Firm, id: string) => {
     const form = new FormData()
     form.append('Name', firm.name)
     form.append('Image', firm.image)
@@ -72,7 +72,7 @@ export default function useFirms() {
     const headers = new Headers()
     headers.set('KEY', firm.key)
 
-    const response = await fetch(urlApi + 'firms/' + name, {
+    const response = await fetch(urlApi + 'firms/' + id, {
       method: 'PUT',
       headers,
       body: form
@@ -84,7 +84,7 @@ export default function useFirms() {
       if (response.status == 200)
       {
         firms.value = data
-        await getFirm(firm.name == '' ? name : firm.name)
+        await getFirm(id)
       }
       else
       {
@@ -93,11 +93,11 @@ export default function useFirms() {
     }
   }
 
-  const deleteFirm = async (name: string, key: string) => {
+  const deleteFirm = async (id: string, key: string) => {
     const headers = new Headers()
     headers.set('KEY', key)
 
-    const response = await fetch(urlApi + 'firms/' + name, { method: 'DELETE', headers })
+    const response = await fetch(urlApi + 'firms/' + id, { method: 'DELETE', headers })
     const data = await response.json()
 
     if (data) {

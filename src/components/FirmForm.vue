@@ -26,7 +26,7 @@
       />
       <img 
         v-else-if="prop.firm?.name != undefined" 
-        :src="urlApi + 'firms/' + prop.firm?.name + '/image/' + (new Date()).toISOString()" 
+        :src="urlApi + 'firms/' + prop.firm?.id + '/image/' + (new Date()).toISOString()" 
         alt="Firms logo" 
       />
       <img v-else
@@ -74,6 +74,7 @@ let { urlApi, load } = useFirms();
 const emit = defineEmits<{ (e: 'on-submit', formFirm: Firm): void }>()
 const prop = defineProps<{ firm?: Firm, errors?: FirmValidation }>();
 const formFirm: Ref<Firm> = ref({
+  id: '',
   name: prop.firm?.name ?? '',
   image: prop.firm?.image ?? '',
   englishDescription: prop.firm?.englishDescription ?? '',

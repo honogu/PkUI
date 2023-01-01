@@ -18,9 +18,9 @@ let { firm, load, getFirm, postFirm } = useFirms();
 onMounted(() => load());
 
 let detailsVisible = ref(false)
-async function toggle(name: string | null) {
-  if (name != null) {
-    await getFirm(name)
+async function toggle(id: string | null) {
+  if (id != null) {
+    await getFirm(id)
     detailsVisible.value = true
   } else {
     firm.value = undefined

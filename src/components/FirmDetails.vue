@@ -6,7 +6,7 @@
     </div>
     <div class="image-container">
       <img 
-        :src="urlApi + 'firms/' + firm?.name + '/image/' + (new Date()).toISOString()"
+        :src="urlApi + 'firms/' + firm?.id + '/image/' + (new Date()).toISOString()"
         :style="loading ? 'visibility: hidden; width: 0;' : ''"
         @load="loading = false" 
         alt="logo" 
@@ -37,7 +37,7 @@
     <h1>Delete "{{ firm?.name }}" 🗑️</h1>
     <div class="image-container">
       <img 
-        :src="urlApi + 'firms/' + firm?.name + '/image/' + (new Date()).toISOString()"
+        :src="urlApi + 'firms/' + firm?.id + '/image/' + (new Date()).toISOString()"
         :style="loading ? 'visibility: hidden; width: 0;' : ''"
         @load="loading = false" 
         alt="logo" 
@@ -90,14 +90,14 @@ function reload() {
 let errors = ref<FirmValidation>()
 async function submitUpdate(formFirm: Firm) {
   errors.value = undefined
-  errors.value = await updateFirm(formFirm, firm.value?.name ?? '')
+  errors.value = await updateFirm(formFirm, firm.value?.id ?? '')
   if (errors.value == undefined) { toggleDetails() }
 }
 
 let key = ref<string>()
 async function submitDelete() {
   errors.value = undefined
-  errors.value = await deleteFirm(firm.value?.name ?? '', key.value ?? '')
+  errors.value = await deleteFirm(firm.value?.id ?? '', key.value ?? '')
   if (errors.value == undefined) { emit('on-toggle') }
 }
 </script>

@@ -1,4 +1,5 @@
 export interface Firm {
+    id: string;
     name: string;
     image: any;
     englishDescription: string;
