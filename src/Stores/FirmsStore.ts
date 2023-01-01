@@ -3,8 +3,8 @@ import { ref } from 'vue'
 const firms = ref<Firm[]>()
 const firm = ref<Firm>()
 //const urlApi = 'https://pkapi-production.up.railway.app/api/'
-const urlApi = 'https://localhost:7086/api/'
-//const urlApi = 'https://pkapi.onrender.com/api/'
+//const urlApi = 'https://localhost:7086/api/'
+const urlApi = 'https://pkapi.onrender.com/api/'
 
 export default function useFirms() {
   const loadFirms = async () => {
