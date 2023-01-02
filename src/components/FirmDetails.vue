@@ -125,6 +125,12 @@ h4 {
   text-overflow: ellipsis;
   white-space: pre-wrap;
 }
+p {
+  color: #ff5959;
+  font-weight: 1000;
+  margin: 5px 0 10px 0;
+  padding: 0;
+}
 .buttons {
   display: flex;
   justify-content: start;
