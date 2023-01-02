@@ -73,19 +73,14 @@ const emit = defineEmits(['on-toggle'])
 
 onMounted(() => load());
 
+let loading = ref(true)
 let editVisible = ref(false)
 let deleteVisible = ref(false)
-function toggleDetails() { editVisible.value = false; deleteVisible.value = false }
-function toggleEdit() { editVisible.value = true; deleteVisible.value = false }
-function toggleDelete() { editVisible.value = false; deleteVisible.value = true }
+function toggleDetails() { loading.value = true; editVisible.value = false; deleteVisible.value = false }
+function toggleEdit() { loading.value = true; editVisible.value = true; deleteVisible.value = false }
+function toggleDelete() { loading.value = true; editVisible.value = false; deleteVisible.value = true }
 
-watch(firm, reload)
-
-let loading = ref(true)
-function reload() {
-  toggleDetails()
-  loading.value = true
-}
+watch(firm, toggleDetails)
 
 let errors = ref<FirmValidation>()
 async function submitUpdate(formFirm: Firm) {

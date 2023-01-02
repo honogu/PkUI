@@ -63,9 +63,10 @@ onresize = () => {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 150%;
     z-index: 300;
     background-color: rgba(0, 0, 0, 0.478);
+    overflow-y: hidden;
 }
 nav {
     position: sticky;
@@ -108,10 +109,12 @@ li:hover {
         top: 0;
         left: -200px;
         transition: left 0.2s;
+        height: 150%;
+        overflow-y: hidden;
     }
     ul {
         padding-left: 10px;
-        margin-top: 50px;
+        margin-top: 80px;
     }
 }
 </style>

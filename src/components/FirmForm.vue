@@ -17,21 +17,27 @@
       <p>{{formFirm.image.name ?? 'No file chosen'}}</p>
     </div>
     <div
+      v-if="imageSrc != undefined" 
       :class="errors?.Image != undefined ? 'image-container error' : 'image-container'"
     >
       <img 
-        v-if="imageSrc != undefined" 
         :src="imageSrc" 
         alt="Firms logo" 
       />
+    </div>
+    <div
+      v-else
+      :class="errors?.Image != undefined ? 'image-container error' : 'image-container'"
+    >
       <img 
-        v-else-if="prop.firm?.name != undefined" 
-        :src="urlApi + 'firms/' + prop.firm?.id + '/image/' + (new Date()).toISOString()" 
-        alt="Firms logo" 
+        :src="urlApi + 'firms/' + firm?.id + '/image/' + (new Date()).toISOString()"
+        :style="loading ? 'visibility: hidden; width: 0;' : ''"
+        @load="loading = false" 
+        alt="logo" 
       />
-      <img v-else
+      <img v-if="loading"
         :src="require('@/assets/placeholder.png')"
-        alt="placeholder" 
+        alt="placeholder"
       />
     </div>
     <h4 v-for="error in errors?.Image" :key="error">⚠️{{ error }}</h4>
@@ -84,6 +90,7 @@ const formFirm: Ref<Firm> = ref({
 
 onMounted(() => load());
 
+let loading = ref(true)
 let imageSrc = ref<string>()
 function onChange(e: any) {
   var files = e.target.files || e.dataTransfer.files

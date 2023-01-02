@@ -32,7 +32,7 @@ let errors = ref<FirmValidation>()
 async function submit(userForm: Firm) {
   errors.value = undefined;
   errors.value = await postFirm(userForm)
-  if (errors.value == undefined) { toggle(userForm.id) }
+  if (errors.value == undefined) { toggle(firm.value?.id ?? '') }
 }
 </script>
 

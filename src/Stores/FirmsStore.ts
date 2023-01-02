@@ -31,15 +31,15 @@ export default function useFirms() {
     }
   }
 
-  const postFirm = async (firm: Firm) => {
+  const postFirm = async (newFirm: Firm) => {
     const form = new FormData()
-    form.append('Name', firm.name)
-    form.append('Image', firm.image)
-    form.append('EnglishDescription', firm.englishDescription)
-    form.append('EstonianDescription', firm.estonianDescription)
+    form.append('Name', newFirm.name)
+    form.append('Image', newFirm.image)
+    form.append('EnglishDescription', newFirm.englishDescription)
+    form.append('EstonianDescription', newFirm.estonianDescription)
 
     const headers = new Headers()
-    headers.set('KEY', firm.key)
+    headers.set('KEY', newFirm.key)
 
     const response = await fetch(urlApi + 'firms', {
       method: 'POST',
@@ -52,7 +52,7 @@ export default function useFirms() {
     if (data) {
       if (response.status == 200)
       {
-        firms.value = data
+        firm.value = data
         await load()
       }
       else
