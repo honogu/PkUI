@@ -140,9 +140,9 @@ p {
   align-items: center;
 }
 .password-button {
-  position: relative;
-  top: 1.5px;
-  left: -42px;
+  position: absolute;
+  margin-top: 2.5px;
+  margin-left: -37px;
 }
 label {
   display: block;
