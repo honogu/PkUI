@@ -52,8 +52,9 @@
       :class="errors?.title != undefined ? 'error' : ''" 
       name="key" 
       v-model="key" 
-      type="text"
+      :type="passwordVisibility ? 'text' : 'password'"
     >
+    <CrudButton class="password-button" v-on:click="togglePassword" :color="'#1f7a8c'" :text="passwordVisibility ? '😀' : '😄'" />
     <p>{{ errors?.title != undefined ? '⚠️' + errors?.title : '' }}</p>
     <div class="buttons">
       <CrudButton v-on:click="submitDelete" :color="'green'" :text="'✔️'" />
@@ -68,17 +69,19 @@ import { Firm, FirmValidation } from '@/Models/Firms'
 import useFirms from '@/Stores/FirmsStore'
 import CrudButton from './CrudButton.vue'
 import FirmForm from './FirmForm.vue'
-let { urlApi, firm, load, updateFirm, deleteFirm } = useFirms()
+let { urlApi, apiKey, firm, load, updateFirm, deleteFirm } = useFirms()
 const emit = defineEmits(['on-toggle'])
 
 onMounted(() => load());
 
+let passwordVisibility = ref(false)
 let loading = ref(true)
 let editVisible = ref(false)
 let deleteVisible = ref(false)
 function toggleDetails() { loading.value = true; editVisible.value = false; deleteVisible.value = false }
 function toggleEdit() { loading.value = true; editVisible.value = true; deleteVisible.value = false }
 function toggleDelete() { loading.value = true; editVisible.value = false; deleteVisible.value = true }
+function togglePassword() { passwordVisibility.value = !passwordVisibility.value }
 
 watch(firm, toggleDetails)
 
@@ -89,7 +92,7 @@ async function submitUpdate(formFirm: Firm) {
   if (errors.value == undefined) { toggleDetails() }
 }
 
-let key = ref<string>()
+let key = ref(apiKey)
 async function submitDelete() {
   errors.value = undefined
   errors.value = await deleteFirm(firm.value?.id ?? '', key.value ?? '')
@@ -136,6 +139,11 @@ p {
   justify-content: start;
   align-items: center;
 }
+.password-button {
+  position: relative;
+  top: 1.5px;
+  left: -42px;
+}
 label {
   display: block;
   padding-bottom: 5px;
@@ -149,17 +157,16 @@ input {
   border-radius: 5px;
   transition: 0.25s;
   font-weight: 1000;
+  outline: none;
 }
 .error {
   border: 3px solid red;
 }
-input:focus {
-  outline: none;
-  border: 3px solid #ff0063;
+input:focus:not(.error) {
+  border: 3px solid #c3c3c3;
 }
-input:hover {
-  outline: none;
-  border: 3px solid #ff0063;
+input:hover:not(.error) {
+  border: 3px solid #c3c3c3;
 }
 
 @media only screen and (max-width: 850px) {

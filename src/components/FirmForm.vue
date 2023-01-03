@@ -29,7 +29,7 @@
       v-else
       :class="errors?.Image != undefined ? 'image-container error' : 'image-container'"
     >
-      <img 
+      <img v-if="firm != undefined"
         :src="urlApi + 'firms/' + firm?.id + '/image/' + (new Date()).toISOString()"
         :style="loading ? 'visibility: hidden; width: 0;' : ''"
         @load="loading = false" 
@@ -60,12 +60,15 @@
     ></textarea>
     <h4 v-for="error in errors?.EnglishDescription" :key="error">⚠️{{ error }}</h4>
     <label for="key">Key</label>
-    <input
-      :class="errors?.title != undefined ? 'error' : ''" 
-      name="key" 
-      v-model="formFirm.key" 
-      type="text"
-    >
+    <div class="password-container">
+      <input
+        :class="errors?.title != undefined ? 'error' : ''" 
+        name="key" 
+        v-model="formFirm.key" 
+        :type="passwordVisibility ? 'text' : 'password'"
+      >
+      <CrudButton type="button" class="password-button" v-on:click="togglePassword" :color="'#1f7a8c'" :text="passwordVisibility ? '😀' : '😄'" />
+    </div>
     <h4>{{ errors?.title != undefined ? '⚠️' + errors?.title : '' }}</h4>
     <CrudButton type="submit" :color="'green'" :text="'Salvesta ✔️'" />
   </form>
@@ -76,7 +79,7 @@ import { ref, Ref, defineProps, defineEmits, onMounted } from 'vue'
 import { Firm, FirmValidation } from '@/Models/Firms'
 import useFirms from '@/Stores/FirmsStore'
 import CrudButton from './CrudButton.vue'
-let { urlApi, load } = useFirms();
+let { urlApi, apiKey, load } = useFirms();
 const emit = defineEmits<{ (e: 'on-submit', formFirm: Firm): void }>()
 const prop = defineProps<{ firm?: Firm, errors?: FirmValidation }>();
 const formFirm: Ref<Firm> = ref({
@@ -85,10 +88,13 @@ const formFirm: Ref<Firm> = ref({
   image: prop.firm?.image ?? '',
   englishDescription: prop.firm?.englishDescription ?? '',
   estonianDescription: prop.firm?.estonianDescription ?? '',
-  key: ''
+  key: apiKey
 });
 
 onMounted(() => load());
+
+let passwordVisibility = ref(false)
+function togglePassword() { passwordVisibility.value = !passwordVisibility.value }
 
 let loading = ref(true)
 let imageSrc = ref<string>()
@@ -213,10 +219,25 @@ h4 {
   margin: 5px 0 10px 0;
   padding: 0;
 }
+.password-button {
+  position: absolute;
+  margin: 2px 2px 0 0;
+}
+.password-container {
+  width: auto;
+  display: flex;
+  flex-direction: row-reverse;
+}
+.password-container input {
+  width: 97.1%;
+}
 
 @media only screen and (max-width: 850px) {
   form {   
     width: auto;
+  }
+  .password-container input {
+    width: 96.5%;
   }
 }
 </style>

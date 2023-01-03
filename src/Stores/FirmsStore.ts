@@ -5,6 +5,7 @@ const firm = ref<Firm>()
 //const urlApi = 'https://pkapi-production.up.railway.app/api/'
 //const urlApi = 'https://localhost:7086/api/'
 const urlApi = 'https://pkapi.onrender.com/api/'
+const apiKey = ref('')
 
 export default function useFirms() {
   const loadFirms = async () => {
@@ -32,6 +33,7 @@ export default function useFirms() {
   }
 
   const postFirm = async (newFirm: Firm) => {
+    apiKey.value = newFirm.key
     const form = new FormData()
     form.append('Name', newFirm.name)
     form.append('Image', newFirm.image)
@@ -63,6 +65,7 @@ export default function useFirms() {
   }
 
   const updateFirm = async (firm: Firm, id: string) => {
+    apiKey.value = firm.key
     const form = new FormData()
     form.append('Name', firm.name)
     form.append('Image', firm.image)
@@ -94,6 +97,7 @@ export default function useFirms() {
   }
 
   const deleteFirm = async (id: string, key: string) => {
+    apiKey.value = key
     const headers = new Headers()
     headers.set('KEY', key)
 
@@ -113,5 +117,5 @@ export default function useFirms() {
     }
   }
 
-  return { urlApi, firm, firms, load, postFirm, getFirm, updateFirm, deleteFirm }
+  return { urlApi, apiKey, firm, firms, load, postFirm, getFirm, updateFirm, deleteFirm }
 }

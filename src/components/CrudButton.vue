@@ -10,7 +10,6 @@ const prop = defineProps<{ text: string, color: string }>();
 <style scoped>
 button {
     min-width: 35px;
-    width: auto;
     height: 35px;
     background-color: none;
     color: #FFFFFF;
