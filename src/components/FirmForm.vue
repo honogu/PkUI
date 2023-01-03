@@ -126,6 +126,10 @@ form {
   flex-direction: column;
   color: #FFFFFF;
 }
+p {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
 .image-container {
   width: 100%;
   max-width: 300px;
@@ -200,7 +204,7 @@ input[type="file"] {
 }
 .custom-file-upload {
   height: 35px;
-  width: 85px;
+  width: auto;
   min-width: 85px;
   padding: 0 5px;
   line-height: 35px;
@@ -238,6 +242,9 @@ h4 {
   }
   .password-container input {
     width: 96.5%;
+  }
+  p {
+    width: 202px;
   }
 }
 </style>
