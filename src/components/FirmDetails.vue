@@ -9,7 +9,7 @@
     <h1>Delete "{{ currentFirm?.name }}" 🗑️</h1>
   </div>
 
-  <div class="image-container" v-if="!editVisible">
+  <div class="image-container" :style="detailsVisible ? 'margin: 0 auto;' : ''" v-if="!editVisible">
     <img 
       :src="urlApi + 'firms/' + currentFirm?.id + '/image/' + (new Date()).toISOString()"
       :style="loading ? 'visibility: hidden; width: 0;' : ''"
