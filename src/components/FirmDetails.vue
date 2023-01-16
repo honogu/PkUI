@@ -1,52 +1,44 @@
 <template>
-  <div v-if="!editVisible && !deleteVisible">
+  <div v-if="detailsVisible">
     <div class="button-container">
       <CrudButton v-on:click="toggleEdit" :color="'#1f7a8c'" :text="'✏️'" />
       <CrudButton v-on:click="toggleDelete" :color="'#AE1F1F'" :text="'🗑️'" />
     </div>
-    <div class="image-container">
-      <img 
-        :src="urlApi + 'firms/' + firm?.id + '/image/' + (new Date()).toISOString()"
-        :style="loading ? 'visibility: hidden; width: 0;' : ''"
-        @load="loading = false" 
-        alt="logo" 
-      />
-      <img v-if="loading"
-        :src="require('@/assets/placeholder.png')"
-        alt="placeholder"
-      />
-    </div>
+  </div>
+  <div class="delete-container" v-if="deleteVisible">
+    <h1>Delete "{{ currentFirm?.name }}" 🗑️</h1>
+  </div>
+
+  <div class="image-container" v-if="!editVisible">
+    <img 
+      :src="urlApi + 'firms/' + currentFirm?.id + '/image/' + (new Date()).toISOString()"
+      :style="loading ? 'visibility: hidden; width: 0;' : ''"
+      @load="loading = false" 
+      alt="logo" 
+    />
+    <img v-if="loading"
+      :src="require('@/assets/placeholder.png')"
+      alt="placeholder"
+    />
+  </div>
+
+  <div v-if="detailsVisible">
     <h4>
-      {{ firm?.estonianDescription }}
+      {{ currentFirm?.estonianDescription }}
     </h4>
     <hr />
     <h4>
-      {{ firm?.englishDescription }}
+      {{ currentFirm?.englishDescription }}
     </h4>
   </div>
-
   <div v-else-if="editVisible">
     <div class="buttons">
-      <h1>Edit "{{ firm?.name }}" ✏️</h1>
-      <CrudButton v-on:click="toggleDetails" :color="'red'" :text="'❌'" />
+      <h1>Edit "{{ currentFirm?.name }}" ✏️</h1>
+      <CrudButton v-on:click="{ toggleDetails(); loading = true }" :color="'red'" :text="'❌'" />
     </div>
-    <FirmForm @on-submit="submitUpdate" :firm="firm" :errors="errors" />
+    <FirmForm @on-submit="submitUpdate" :firm="currentFirm" :errors="errors" />
   </div>
-
   <div class="delete-container" v-else>
-    <h1>Delete "{{ firm?.name }}" 🗑️</h1>
-    <div class="image-container">
-      <img 
-        :src="urlApi + 'firms/' + firm?.id + '/image/' + (new Date()).toISOString()"
-        :style="loading ? 'visibility: hidden; width: 0;' : ''"
-        @load="loading = false" 
-        alt="logo" 
-      />
-      <img v-if="loading"
-        :src="require('@/assets/placeholder.png')"
-        alt="placeholder"
-      />
-    </div>
     <label for="key">Key:</label>
     <input 
       :class="errors?.title != undefined ? 'error' : ''" 
@@ -69,7 +61,7 @@ import { Firm, FirmValidation } from '@/Models/Firms'
 import useFirms from '@/Stores/FirmsStore'
 import CrudButton from './CrudButton.vue'
 import FirmForm from './FirmForm.vue'
-let { urlApi, apiKey, firm, load, updateFirm, deleteFirm } = useFirms()
+let { urlApi, apiKey, currentFirm, load, updateFirm, deleteFirm } = useFirms()
 const emit = defineEmits(['on-toggle'])
 
 onMounted(() => load());
@@ -78,24 +70,26 @@ let passwordVisibility = ref(false)
 let loading = ref(true)
 let editVisible = ref(false)
 let deleteVisible = ref(false)
-function toggleDetails() { loading.value = true; editVisible.value = false; deleteVisible.value = false }
-function toggleEdit() { loading.value = true; editVisible.value = true; deleteVisible.value = false }
-function toggleDelete() { loading.value = true; editVisible.value = false; deleteVisible.value = true }
+let detailsVisible = ref(false)
+function toggleDetails() { detailsVisible.value = true; editVisible.value = false; deleteVisible.value = false }
+function toggleEdit() { detailsVisible.value = false; editVisible.value = true; deleteVisible.value = false }
+function toggleDelete() { detailsVisible.value = false; editVisible.value = false; deleteVisible.value = true }
 function togglePassword() { passwordVisibility.value = !passwordVisibility.value }
 
-watch(firm, toggleDetails)
+watch(currentFirm, toggle)
+function toggle() { loading.value = true; toggleDetails() }
 
 let errors = ref<FirmValidation>()
 async function submitUpdate(formFirm: Firm) {
   errors.value = undefined
-  errors.value = await updateFirm(formFirm, firm.value?.id ?? '')
+  errors.value = await updateFirm(formFirm, currentFirm.value?.id ?? '')
   if (errors.value == undefined) { toggleDetails() }
 }
 
 let key = ref(apiKey)
 async function submitDelete() {
   errors.value = undefined
-  errors.value = await deleteFirm(firm.value?.id ?? '', key.value ?? '')
+  errors.value = await deleteFirm(currentFirm.value?.id ?? '', key.value ?? '')
   if (errors.value == undefined) { emit('on-toggle') }
 }
 </script>
@@ -104,7 +98,7 @@ async function submitDelete() {
 .image-container {
   width: 100%;
   max-width: 300px;
-  margin: 0 auto;
+  margin: 10px 0;
   aspect-ratio: 3.5/1;
   border: solid 1px #FFFFFF;
   background-color: #FFFFFF;
@@ -133,6 +127,10 @@ p {
   font-weight: 1000;
   margin: 5px 0 10px 0;
   padding: 0;
+}
+.button-container {
+  display: flex;
+  justify-content: right;
 }
 .buttons {
   display: flex;
@@ -167,12 +165,5 @@ input:focus:not(.error) {
 }
 input:hover:not(.error) {
   border: 3px solid #c3c3c3;
-}
-
-@media only screen and (max-width: 850px) {
-  .button-container {
-    display: flex;
-    justify-content: right;
-  }
 }
 </style>

@@ -13,18 +13,18 @@ import NavBar from './components/NavBar.vue'
 import useFirms from '@/Stores/FirmsStore'
 import { Firm, FirmValidation } from '@/Models/Firms'
 import { ref, onMounted } from 'vue'
-let { firm, load, getFirm, postFirm } = useFirms();
+let { firms, currentFirm, load, postFirm } = useFirms();
 
 onMounted(() => load());
 
 let detailsVisible = ref(false)
 async function toggle(id: string | null) {
   if (id != null) {
-    await getFirm(id)
+    currentFirm.value = firms.value?.find(f => f.id === id)
     detailsVisible.value = true
   } else {
-    firm.value = undefined
     detailsVisible.value = false
+    currentFirm.value = undefined
   }
 }
 
@@ -32,7 +32,7 @@ let errors = ref<FirmValidation>()
 async function submit(userForm: Firm) {
   errors.value = undefined;
   errors.value = await postFirm(userForm)
-  if (errors.value == undefined) { toggle(firm.value?.id ?? '') }
+  if (errors.value == undefined) { toggle(currentFirm.value?.id ?? '') }
 }
 </script>
 

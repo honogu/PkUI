@@ -1,7 +1,7 @@
 import type { Firm } from "@/Models/Firms"
 import { ref } from 'vue'
 const firms = ref<Firm[]>()
-const firm = ref<Firm>()
+const currentFirm = ref<Firm>()
 //const urlApi = 'https://pkapi-production.up.railway.app/api/'
 //const urlApi = 'https://localhost:7086/api/'
 const urlApi = 'https://pkapi.onrender.com/api/'
@@ -13,7 +13,8 @@ export default function useFirms() {
     const data = await response.json();
 
     if (data) {
-      return data
+      const promises = data.map((firm: { id: string }) => getFirm(firm.id))
+      return await Promise.all(promises)
     }
 
     return [];
@@ -28,7 +29,7 @@ export default function useFirms() {
     const data = await response.json();
 
     if (data) {
-      firm.value = data
+      return data
     }
   }
 
@@ -54,7 +55,7 @@ export default function useFirms() {
     if (data) {
       if (response.status == 200)
       {
-        firm.value = data
+        currentFirm.value = data;
         await load()
       }
       else
@@ -86,8 +87,8 @@ export default function useFirms() {
     if (data) {
       if (response.status == 200)
       {
-        firms.value = data
-        await getFirm(id)
+        currentFirm.value = data
+        await load()
       }
       else
       {
@@ -107,8 +108,8 @@ export default function useFirms() {
     if (data) {
       if (response.status == 200)
       {
-        firm.value = data
-        await load()
+        currentFirm.value = undefined
+        firms.value = data
       }
       else
       {
@@ -117,5 +118,5 @@ export default function useFirms() {
     }
   }
 
-  return { urlApi, apiKey, firm, firms, load, postFirm, getFirm, updateFirm, deleteFirm }
+  return { urlApi, apiKey, firms, currentFirm, load, postFirm, updateFirm, deleteFirm }
 }

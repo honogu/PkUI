@@ -7,13 +7,13 @@
             <li 
                 v-for="firm1 in firms" :key="firm1.id" 
                 v-on:click="emit('on-toggle', firm1.id); makeNavVisible()"
-                :style="firm1.name == firm?.name ? 'background-color: #ff0063' : ''"
+                :style="firm1.name == currentFirm?.name ? 'background-color: #ff0063' : ''"
             >
                 {{ firm1.name }}
             </li>
             <li 
                 v-on:click="emit('on-toggle'); makeNavVisible()"
-                :style="firm == undefined ? 'background: #ff0063' : ''"
+                :style="currentFirm == undefined ? 'background: #ff0063' : ''"
             >
                 New firm
             </li>
@@ -26,7 +26,7 @@ import useFirms from '@/Stores/FirmsStore'
 import CrudButton from './CrudButton.vue'
 import { ref, defineEmits } from 'vue'
 const emit = defineEmits(['on-toggle'])
-let { firm, firms } = useFirms();
+let { currentFirm, firms } = useFirms();
 
 let style = ref<string>();
 let style2 = ref<string>();
@@ -70,14 +70,13 @@ onresize = () => {
 }
 nav {
     position: sticky;
-    position: -webkit-sticky;
     top: 10px;
-    height: 100%;
+    position: -webkit-sticky;
+    height: auto;
     width: 200px;
     z-index: 1000;
 }
 ul {
-    top: 8px;
     width: auto;
     height: min-content;
     list-style-type: none;

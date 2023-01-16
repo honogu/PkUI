@@ -29,7 +29,7 @@
       v-else
       :class="errors?.Image != undefined ? 'image-container error' : 'image-container'"
     >
-      <img v-if="firm != undefined"
+      <img v-if="firm?.id != undefined"
         :src="urlApi + 'firms/' + firm?.id + '/image/' + (new Date()).toISOString()"
         :style="loading ? 'visibility: hidden; width: 0;' : ''"
         @load="loading = false" 
