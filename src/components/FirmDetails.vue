@@ -70,14 +70,14 @@ let passwordVisibility = ref(false)
 let loading = ref(true)
 let editVisible = ref(false)
 let deleteVisible = ref(false)
-let detailsVisible = ref(false)
+let detailsVisible = ref(true)
 function toggleDetails() { detailsVisible.value = true; editVisible.value = false; deleteVisible.value = false }
 function toggleEdit() { detailsVisible.value = false; editVisible.value = true; deleteVisible.value = false }
 function toggleDelete() { detailsVisible.value = false; editVisible.value = false; deleteVisible.value = true }
 function togglePassword() { passwordVisibility.value = !passwordVisibility.value }
 
 watch(currentFirm, toggle)
-function toggle() { loading.value = true; toggleDetails() }
+function toggle() {loading.value = true; toggleDetails() }
 
 let errors = ref<FirmValidation>()
 async function submitUpdate(formFirm: Firm) {
