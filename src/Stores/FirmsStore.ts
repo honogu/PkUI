@@ -9,12 +9,11 @@ const apiKey = ref('')
 
 export default function useFirms() {
   const loadFirms = async () => {
-    const response = await fetch(urlApi + 'firms');
-    const data = await response.json();
+    const response = await fetch(urlApi + 'firms')
+    const data = await response.json()
 
     if (data) {
-      const promises = data.map((firm: { id: string }) => getFirm(firm.id))
-      return await Promise.all(promises)
+      return data
     }
 
     return [];
@@ -22,15 +21,6 @@ export default function useFirms() {
   
   const load = async () => {
     firms.value = await loadFirms()
-  }
-
-  const getFirm = async (id: string) => {
-    const response = await fetch(urlApi + 'firms/' + id)
-    const data = await response.json();
-
-    if (data) {
-      return data
-    }
   }
 
   const postFirm = async (newFirm: Firm) => {
