@@ -96,16 +96,20 @@ async function submitDelete() {
 
 <style scoped>
 .image-container {
-  width: 100%;
-  max-width: 300px;
-  margin: 10px 0;
+  align-items: center;
   aspect-ratio: 3.5/1;
-  border: solid 1px #FFFFFF;
-  background-color: #FFFFFF;
+  background-color: #fff;
+  border: solid;
+  border-bottom-color: #fff;
+  border-left: 15px solid #fff;
   border-radius: 7px;
+  border-right: 15px solid #fff;
+  border-top-color: #fff;
   display: flex;
   justify-content: center;
-  align-items: center;
+  margin-bottom: 20px;
+  max-width: 270px;
+  width: 100%;
 }
 .middle {
   margin: 0 auto;
@@ -120,10 +124,13 @@ async function submitDelete() {
 }
 h4 {
   word-wrap: break-word;
-  font-size: 19px;
+  padding-left: 2px;
+  padding-right: 2px;
   text-align: left;
   text-overflow: ellipsis;
   white-space: pre-wrap;
+  font-size: 17px;
+  line-height: 1.5em;
 }
 p {
   color: #ff5959;
@@ -168,5 +175,16 @@ input:focus:not(.error) {
 }
 input:hover:not(.error) {
   border: 3px solid #c3c3c3;
+}
+
+@media only screen and (max-width: 850px) {
+  h4 {
+    font-size: 14px;
+  }
+  .middle {
+    aspect-ratio: 3.5/1;
+    max-width: 250px;
+    width: 80%;
+  }
 }
 </style>

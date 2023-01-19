@@ -2,22 +2,24 @@
     <div :style="style2" class="feedback-background" @click="makeNavVisible"></div>
     <CrudButton v-on:click="makeNavVisible" class="nav-button" :color="'#1f7a8c'" :text="'☰'" />
     <nav :style="style">
-        <ul>
+        <div class="nav-container">
             <h1>OSALEVAD FIRMAD:</h1>
-            <li 
-                v-for="firm1 in firms" :key="firm1.id" 
-                v-on:click="emit('on-toggle', firm1.id); makeNavVisible()"
-                :style="firm1.name == currentFirm?.name ? 'background-color: #ff0063' : ''"
-            >
-                {{ firm1.name }}
-            </li>
-            <li 
-                v-on:click="emit('on-toggle'); makeNavVisible()"
-                :style="currentFirm == undefined ? 'background: #ff0063' : ''"
-            >
-                New firm
-            </li>
-        </ul>
+            <ul>
+                <li 
+                    v-for="firm1 in firms" :key="firm1.id" 
+                    v-on:click="emit('on-toggle', firm1.id); makeNavVisible()"
+                    :style="firm1.name == currentFirm?.name ? 'background-color: #ff0063' : ''"
+                >
+                    {{ firm1.name }}
+                </li>
+                <li 
+                    v-on:click="emit('on-toggle'); makeNavVisible()"
+                    :style="currentFirm == undefined ? 'background: #ff0063' : ''"
+                >
+                    New firm
+                </li>
+            </ul>
+        </div>
     </nav>
 </template>
 
@@ -76,9 +78,16 @@ nav {
     width: 200px;
     z-index: 1000;
 }
+.nav-container {
+    height: auto;
+    padding-left: 10px;
+    overflow-y: hidden;
+}
+.nav-container h1 {
+    margin: 0;
+}
 ul {
     width: auto;
-    height: min-content;
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -102,6 +111,9 @@ li:hover {
     .nav-button {
         display: block;
     }
+    .nav-container h1 {
+        padding-top: 65px;
+    }
     nav {
         position: fixed;
         background: linear-gradient(90deg,#170954 9%,#312ebd 95%);
@@ -112,8 +124,18 @@ li:hover {
         overflow-y: hidden;
     }
     ul {
-        padding-left: 10px;
-        margin-top: 80px;
+        height: 70vh;
+        overflow-y: scroll;
+    }
+    ul::-webkit-scrollbar {
+        width: 5px;
+    }
+    ul::-webkit-scrollbar-thumb {
+        background: #ff0063;
+        border-radius: 5px;
+    }
+    ul::-webkit-scrollbar-track {
+        background: #170954;
     }
 }
 </style>
