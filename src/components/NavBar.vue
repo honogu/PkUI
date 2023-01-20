@@ -79,9 +79,9 @@ nav {
     z-index: 1000;
 }
 .nav-container {
-    height: auto;
+    position: relative;
+    height: 100vh;
     padding-left: 10px;
-    overflow-y: hidden;
 }
 .nav-container h1 {
     margin: 0;
@@ -124,8 +124,10 @@ li:hover {
         overflow-y: hidden;
     }
     ul {
-        height: 70vh;
+        position: absolute;
         overflow-y: scroll;
+        top: 130px;
+        bottom: 10px;
     }
     ul::-webkit-scrollbar {
         width: 5px;
