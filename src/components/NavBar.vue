@@ -103,7 +103,7 @@ li:hover {
     display: none;
     position: fixed;
     left: 10px;
-    margin: 10px;
+    margin: 0;
     z-index: 1100;
 }
 
@@ -112,7 +112,7 @@ li:hover {
         display: block;
     }
     .nav-container h1 {
-        padding-top: 65px;
+        padding-top: 50px;
     }
     nav {
         position: fixed;
@@ -126,8 +126,8 @@ li:hover {
     ul {
         position: absolute;
         overflow-y: scroll;
-        top: 130px;
-        bottom: 10px;
+        top: 115px;
+        bottom: 110px;
     }
     ul::-webkit-scrollbar {
         width: 5px;
